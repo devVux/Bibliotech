@@ -8,6 +8,7 @@ SOURCES += \
     main.cpp \
     Model/Book.cpp \
     Model/Film.cpp \
+    Model/MusicAlbum.cpp\
     Model/Biblioteca.cpp \
     Model/Serializers/XMLSerializer.cpp \
     Model/Serializers/XMLVisitor.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     Model/Media.h \
     Model/Book.h \
     Model/Film.h \
+    Model/MusicAlbum.h\
     Model/Biblioteca.h \
     Model/Observer.h \
     Model/Serializer.h \
