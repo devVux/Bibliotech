@@ -67,4 +67,53 @@ void FormVisitor::visit(Book& book) {
 
     pDialog->setLayout(formLayout);
 }
+//
+void FormVisitor::visit(MusicAlbulm& album) {
+    pDialog = new QDialog(pParent);
+    pDialog->setWindowTitle("Edit Music Album");
 
+    QFormLayout* formLayout = new QFormLayout(pDialog);
+
+    // Campi generici
+    QLineEdit* titleEdit = new QLineEdit(album.title());
+    QLineEdit* publisherEdit = new QLineEdit(album.publisher());
+    QSpinBox* yearEdit = new QSpinBox();
+    yearEdit->setValue(album.year());
+
+    // Campi specifici
+    QLineEdit* artistEdit = new QLineEdit(album.artist());
+    QLineEdit* genreEdit = new QLineEdit(album.genre());
+    QSpinBox* trackCountEdit = new QSpinBox();
+    trackCountEdit->setValue(album.trackCount());
+
+    // Aggiunta dei campi nel form
+    formLayout->addRow("Title:", titleEdit);
+    formLayout->addRow("Publisher:", publisherEdit);
+    formLayout->addRow("Year:", yearEdit);
+    formLayout->addRow("Artist:", artistEdit);
+    formLayout->addRow("Genre:", genreEdit);
+    formLayout->addRow("Tracks:", trackCountEdit);
+
+    QPushButton* saveButton = new QPushButton("Save");
+    formLayout->addWidget(saveButton);
+
+    QObject::connect(saveButton, &QPushButton::clicked,
+                     saveButton, 
+                     [this, &album,
+                      titleEdit, publisherEdit, yearEdit,
+                      artistEdit, genreEdit, trackCountEdit]()
+    {
+        album.title(titleEdit->text());
+        album.publisher(publisherEdit->text());
+        album.year(yearEdit->value());
+        album.artist(artistEdit->text());
+        album.genre(genreEdit->text());
+        album.trackCount(trackCountEdit->value());
+
+        // commitChanges() notifica la view
+        album.commitChanges();
+        pDialog->accept();
+    });
+
+    pDialog->setLayout(formLayout);
+}
