@@ -14,6 +14,8 @@ class Controller: public QObject, public Observer, public Subject {
 		Controller(ModelPtr model, ViewPtr view): pModel(model), pView(view) { }
 		
 		void init();
+
+		void addMusicAlbum(); //agg
 	
 	protected:
 
@@ -30,6 +32,6 @@ class Controller: public QObject, public Observer, public Subject {
 		ModelPtr pModel;
 		ViewPtr pView;
 
-		QString mQuery;
+		QString mQuery; // filtro per ricerche
 
 };
