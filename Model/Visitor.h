@@ -12,7 +12,7 @@ class Visitor {
 
 		virtual void visit(Film& film) = 0;
 		virtual void visit(Book& book) = 0;
-		virtual void visit(MusicAlbulm& album) = 0;
+		virtual void visit(MusicAlbum& album) = 0;
 
 
 };
