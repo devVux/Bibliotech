@@ -12,7 +12,7 @@ class QtVisitor: public Visitor {
 
 		virtual void visit(Film& film) override;
 		virtual void visit(Book& book) override;
-		virtual void visti(MusicAlbum& album) override; //
+		virtual void visit(MusicAlbum& album) override; //
 
 		MediaWidget* widget() const { return pWidget; }
 
