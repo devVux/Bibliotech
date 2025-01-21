@@ -14,6 +14,7 @@ class Controller: public QObject, public Observer, public Subject {
 		Controller(ModelPtr model, ViewPtr view): pModel(model), pView(view) { }
 		
 		void init();
+		void addMusicAlbum(); //
 	
 	protected:
 
