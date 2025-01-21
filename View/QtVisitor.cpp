@@ -61,7 +61,7 @@ void QtVisitor::visit(Book& book) {
 
 }
 //
-void QtVisitor::visit(MusicAlbulm& album) {
+void QtVisitor::visit(MusicAlbum& album) {
     pWidget = new MediaWidget(pParent);
     QVBoxLayout* layout = new QVBoxLayout(pWidget);
 
