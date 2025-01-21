@@ -10,6 +10,7 @@ class XMLVisitor: public Visitor {
 
 		void visit(Film& film) override;
 		void visit(Book& book) override;
+	        void visit(MusicAlbulm& album) override; //
 		
 		QDomElement element() const { return mElement; }
 
