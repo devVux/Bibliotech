@@ -19,7 +19,7 @@ void XMLVisitor::visit(Book& book) {
 	mElement.setAttribute("plot", book.plot());
 }
 //
-void XMLVisitor::visit(MusicAlbulm& album) {
+void XMLVisitor::visit(MusicAlbum& album) {
     mElement = mDocument.createElement("MusicAlbulm");
     mElement.setAttribute("title", album.title());
     mElement.setAttribute("publisher", album.publisher());
