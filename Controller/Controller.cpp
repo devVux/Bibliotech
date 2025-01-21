@@ -2,6 +2,7 @@
 
 #include "Book.h"
 #include "Film.h"
+#include "MusicAlbum.h"
 #include "XMLSerializer.h"
 
 void Controller::init() {
