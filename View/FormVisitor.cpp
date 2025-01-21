@@ -68,7 +68,7 @@ void FormVisitor::visit(Book& book) {
     pDialog->setLayout(formLayout);
 }
 // 
-void FormVisitor::visit(MusicAlbulm& album) {
+void FormVisitor::visit(MusicAlbum& album) {
     pDialog = new QDialog(pParent);
     pDialog->setWindowTitle("Edit Music Album");
 
