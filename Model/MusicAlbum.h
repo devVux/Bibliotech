@@ -1,7 +1,7 @@
 #pragma once
 #include "Media.h"
 
-class MusicAlbulm : public Media {
+class MusicAlbum : public Media {
 
 private:
     QString mArtist;
@@ -9,7 +9,7 @@ private:
     uint32_t mTrackCount;
 
 public:
-    MusicAlbulm(const QString& title,
+    MusicAlbum(const QString& title,
                 const QString& publisher,
                 uint32_t year,
                 const QString& artist,
