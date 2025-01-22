@@ -2,9 +2,9 @@
 
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QLayout.h>
-#include <QtWidgets/QFileDialog.h>
-#include <QtWidgets/QInputDialog.h>
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QInputDialog>
 
 #include <QtVisitor.h>
 #include <FormVisitor.h>
