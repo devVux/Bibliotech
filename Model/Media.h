@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Observer.h"
-#include <QtCore/QString.h>
+#include <QtCore/QString>
 
 class Visitor;
 

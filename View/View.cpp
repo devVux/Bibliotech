@@ -1,10 +1,10 @@
 #include "View.h"
 
 #include <QtWidgets/QWidget>
-#include <QtWidgets/QToolbar.h>
-#include <QtWidgets/QLayout.h>
-#include <QtWidgets/QFileDialog.h>
-#include <QtWidgets/QInputDialog.h>
+#include <QtWidgets/QToolbar>
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QInputDialog>
 
 #include <QtVisitor.h>
 #include <FormVisitor.h>

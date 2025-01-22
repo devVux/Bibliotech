@@ -1,0 +1,39 @@
+name: Windows Build
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '6.7.1'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_msvc2019_64'
+        cache: 'true'
+        setup-python: 'true'
+        set-env: 'true'
+        archives: 'qtbase qttools icu'
+
+    - name: Setup MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Build project
+      run: |
+        $env:PATH = "$env:Qt6_DIR\bin;$env:VSINSTALLDIR\VC\Auxiliary\Build;$env:PATH"
+
+        qtenv2.bat
+        vcvarsall.bat x64
+
+        qmake Bibliotech.pro CONFIG+=release
+        nmake
