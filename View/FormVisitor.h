@@ -13,6 +13,7 @@ class FormVisitor: public Visitor {
 		
 		virtual void visit(Film& film) override;
 		virtual void visit(Book& book) override;
+		virtual void visit(MusicAlbum& album) override;  //
 
 		QDialog* dialog() const { return pDialog; }
 

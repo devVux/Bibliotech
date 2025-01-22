@@ -1,10 +1,10 @@
 #include "View.h"
 
 #include <QtWidgets/QWidget>
-#include <QtWidgets/QToolBar>
-#include <QtWidgets/QLayout>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QToolbar.h>
+#include <QtWidgets/QLayout.h>
+#include <QtWidgets/QFileDialog.h>
+#include <QtWidgets/QInputDialog.h>
 
 #include <QtVisitor.h>
 #include <FormVisitor.h>
@@ -20,12 +20,14 @@ void View::init() {
 
 	auto addBookAction = toolbar->addAction("Add Book");
 	auto addFilmAction = toolbar->addAction("Add Film");
+	auto addMusicAlbumAction = toolbar->addAction("Add Music Album");  // 
 
 	auto searchAction = toolbar->addAction("Search");
 	auto resetAction = toolbar->addAction("Reset");
 
 	connect(addBookAction, &QAction::triggered, this, &View::addBookButtonClicked);
 	connect(addFilmAction, &QAction::triggered, this, &View::addFilmButtonClicked);
+	connect(addMusicAlbumAction, &QAction::triggered, this, &View::addMusicAlbumButtonClicked); //
 	
 	connect(loadAction, &QAction::triggered, this, [this]() {
 		QString filePath = QFileDialog::getOpenFileName(this, "Load File", "dump.xml", "XML Files (*.xml);;All Files (*)");
