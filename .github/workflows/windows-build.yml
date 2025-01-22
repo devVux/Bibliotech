@@ -33,7 +33,7 @@ jobs:
         $env:PATH = "$env:Qt6_DIR\bin;$env:VSINSTALLDIR\VC\Auxiliary\Build;$env:PATH"
 
         qtenv2.bat
-        vcvarsall.bat x64
+        vcvars64.bat
 
         qmake Bibliotech.pro CONFIG+=release
         nmake
