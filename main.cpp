@@ -1,5 +1,5 @@
-#include <QtWidgets/QApplication.h>
-#include <QtWidgets/QMainWindow.h>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
 #include <memory>
 
 #include "Biblioteca.h"
