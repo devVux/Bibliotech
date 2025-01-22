@@ -2,6 +2,7 @@
 
 #include "Book.h"
 #include "Film.h"
+#include "MusicAlbum.h"
 #include "XMLSerializer.h"
 
 void Controller::init() {
@@ -13,6 +14,9 @@ void Controller::init() {
     QObject::connect(pView.get(), &View::addFilmButtonClicked, this, [this]() {
         pModel->addMedia(std::make_shared<Film>("Title", "Publisher", 2020, "Author", "Plot", 1));
     });
+    QObject::connect(pView.get(), &View::addMusicAlbumButtonClicked, this, [this](){
+    pModel->addMedia(std::make_shared<MusicAlbum>("RockStar","Publisher",2018,"Sfera","Trap",11  ));});
+
 
 
     QObject::connect(pView.get(), &View::loadButtonClicked, this, [this](const QString& filepath) {

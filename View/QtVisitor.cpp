@@ -60,3 +60,30 @@ void QtVisitor::visit(Book& book) {
 	layout->addWidget(deleteButton);
 
 }
+//
+void QtVisitor::visit(MusicAlbum& album) {
+    pWidget = new MediaWidget(pParent);
+    QVBoxLayout* layout = new QVBoxLayout(pWidget);
+
+    QLabel* titleLabel = new QLabel("Title: " + album.title(), pWidget);
+    QLabel* artistLabel = new QLabel("Artist: " + album.artist(), pWidget);
+    QLabel* genreLabel = new QLabel("Genre: " + album.genre(), pWidget);
+    QLabel* publisherLabel = new QLabel("Publisher: " + album.publisher(), pWidget);
+    QLabel* yearLabel = new QLabel("Year: " + QString::number(album.year()), pWidget);
+    QLabel* trackCountLabel = new QLabel("Tracks: " + QString::number(album.trackCount()), pWidget);
+
+    QPushButton* editButton = new QPushButton("Edit", pWidget);
+    QObject::connect(editButton, &QPushButton::clicked, pWidget, &MediaWidget::editButtonClicked);
+
+    QPushButton* deleteButton = new QPushButton("Delete", pWidget);
+    QObject::connect(deleteButton, &QPushButton::clicked, pWidget, &MediaWidget::deleteButtonClicked);
+
+    layout->addWidget(titleLabel);
+    layout->addWidget(artistLabel);
+    layout->addWidget(genreLabel);
+    layout->addWidget(publisherLabel);
+    layout->addWidget(yearLabel);
+    layout->addWidget(trackCountLabel);
+    layout->addWidget(editButton);
+    layout->addWidget(deleteButton);
+}
