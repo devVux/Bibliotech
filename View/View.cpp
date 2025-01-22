@@ -1,7 +1,7 @@
 #include "View.h"
 
 #include <QtWidgets/QWidget>
-#include <QtWidgets/QToolbar>
+#include <QtWidgets/QToolBar>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QInputDialog>

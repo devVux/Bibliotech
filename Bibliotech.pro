@@ -41,7 +41,11 @@ INCLUDEPATH += \
     View \
     Model/Serializers
 
-QMAKE_CXXFLAGS += -Wall -Wextra
+msvc {
+    QMAKE_CXXFLAGS += /W3
+} else {
+    QMAKE_CXXFLAGS += -Wall -Wextra
+}
 
 DESTDIR = bin
 
