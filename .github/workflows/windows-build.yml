@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - actions
   pull_request:
     branches:
       - master
@@ -32,11 +33,14 @@ jobs:
       uses: ilammy/msvc-dev-cmd@v1
 
     - name: Build project
+      shell: cmd
       run: |
-        $env:PATH = "$env:Qt6_DIR\bin;$env:VSINSTALLDIR\VC\Auxiliary\Build;$env:PATH"
-
+        set PATH=%QT_ROOT_DIR%\bin;%PATH%
+        set PATH=%VSINSTALLDIR%\VC\Auxiliary\Build;%PATH%
+        set PATH=%Qt6_DIR%\bin;%VSINSTALLDIR%\VC\Tools\MSVC\%VCToolsVersion%\bin\Hostx64\x64;%PATH%
+        
         qtenv2.bat
         vcvars64.bat
-
+        
         qmake Bibliotech.pro CONFIG+=release
         nmake
