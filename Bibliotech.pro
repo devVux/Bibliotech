@@ -32,7 +32,7 @@ HEADERS += \
     View/QtVisitor.h \
     View/FormVisitor.h \
     View/View.h \
-    View\MediaWidget.h \
+    View/MediaWidget.h \
     Controller/Controller.h
 
 
@@ -43,7 +43,11 @@ INCLUDEPATH += \
     View \
     Model/Serializers
 
-QMAKE_CXXFLAGS += -Wall -Wextra
+msvc {
+    QMAKE_CXXFLAGS += /W3
+} else {
+    QMAKE_CXXFLAGS += -Wall -Wextra
+}
 
 DESTDIR = bin
 
