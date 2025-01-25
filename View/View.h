@@ -26,6 +26,7 @@ class View: public QMainWindow, public Observer {
 
 		void addBookButtonClicked();
 		void addFilmButtonClicked();
+		void addMusicAlbumButtonClicked();  //
 		
 		void saveButtonClicked(const QString& path);
 		void loadButtonClicked(const QString& path);

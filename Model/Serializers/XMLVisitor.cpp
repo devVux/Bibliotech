@@ -18,3 +18,14 @@ void XMLVisitor::visit(Book& book) {
 	mElement.setAttribute("author", book.author());
 	mElement.setAttribute("plot", book.plot());
 }
+//
+void XMLVisitor::visit(MusicAlbum& album) {
+    mElement = mDocument.createElement("MusicAlbulm");
+    mElement.setAttribute("title", album.title());
+    mElement.setAttribute("publisher", album.publisher());
+    mElement.setAttribute("year", album.year());
+    mElement.setAttribute("artist", album.artist());
+    mElement.setAttribute("genre", album.genre());
+    mElement.setAttribute("trackCount", album.trackCount());
+}
+
