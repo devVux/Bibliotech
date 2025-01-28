@@ -18,9 +18,9 @@ void XMLVisitor::visit(Book& book) {
 	mElement.setAttribute("author", book.author());
 	mElement.setAttribute("plot", book.plot());
 }
-//
+
 void XMLVisitor::visit(MusicAlbum& album) {
-    mElement = mDocument.createElement("MusicAlbulm");
+    mElement = mDocument.createElement("MusicAlbum");
     mElement.setAttribute("title", album.title());
     mElement.setAttribute("publisher", album.publisher());
     mElement.setAttribute("year", album.year());

@@ -72,7 +72,19 @@ bool XMLSerializer::load(const QString& filename, Biblioteca& biblioteca) const 
 				MediaPtr book = std::make_shared<Book>(title, publisher, year, author, plot);
 				biblioteca.addMedia(book);
 
+			} else if (element.tagName() == "MusicAlbum") {
+				QString title = element.attribute("title");
+				QString publisher = element.attribute("publisher");
+				uint32_t year = element.attribute("year").toUInt();
+				QString artist = element.attribute("artist");
+				QString genre = element.attribute("genre");
+				uint32_t trackCount = element.attribute("trackCount").toUInt();
+
+				MediaPtr album = std::make_shared<MusicAlbum>(title, publisher, year, artist, genre, trackCount);
+				biblioteca.addMedia(album);
+
 			}
+
 		}
 		node = node.nextSibling();
 	}
