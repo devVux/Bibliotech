@@ -2,35 +2,21 @@
 
 #include "Observer.h"
 #include "Biblioteca.h"
-#include "View.h"
 
 #include <QtCore/QObject>
 
-class Controller: public QObject, public Observer, public Subject {
+class Controller: public QObject {
 	Q_OBJECT
 
 	public:
 
-		Controller(ModelPtr model, ViewPtr view): pModel(model), pView(view) { }
+		Controller(ModelPtr model): pModel(model) { }
 		
 		void init();
-		void addMusicAlbum(); //
 	
-	protected:
-
-		virtual void notifyAll() override {
-			for (Observer* observer : mObservers)
-				observer->update(&mQuery);
-		}
-
-        virtual void update(void*) override { notifyAll(); }
-
 
 	private:
 		
 		ModelPtr pModel;
-		ViewPtr pView;
-
-		QString mQuery;
 
 };

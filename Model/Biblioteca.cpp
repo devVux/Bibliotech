@@ -1,30 +1,32 @@
 #include "Biblioteca.h"
 
 void Biblioteca::addMedia(const MediaPtr& media) {
-	media->registerObserver(this);
+    media->registerObserver(this);
 	mMedia.push_back(media);
-	notifyAll();
+	notifyAll({ mMedia });
 }
 
 void Biblioteca::removeMedia(const MediaPtr& media) {
-	const auto& it = std::find(mMedia.begin(), mMedia.end(), media);
+	auto it = std::find(mMedia.begin(), mMedia.end(), media);
 	if (it != mMedia.end()) {
 		mMedia.erase(it);
-		notifyAll();
+		notifyAll({ mMedia });
 	}
 }
 
-std::vector<MediaPtr> Biblioteca::search(const QString& s) const {
-	std::vector<MediaPtr> v;
+std::vector<MediaPtr> Biblioteca::search(const QString& s) {
+	std::vector<MediaPtr> result;
     for (MediaPtr media : mMedia)
 		if (media->mathes(s))
-			v.push_back(media);
+            result.push_back(media);
 
-	return v;
+    notifyAll({ result });
+
+	return result;
 }
 
 void Biblioteca::clear() {
-	mMedia.erase(mMedia.begin(), mMedia.end());
-	notifyAll();
+	mMedia.clear();
+	notifyAll({ mMedia });
 }
 
