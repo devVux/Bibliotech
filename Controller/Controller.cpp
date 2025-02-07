@@ -17,7 +17,6 @@ void Controller::init() {
     pModel->addMedia(std::make_shared<MusicAlbum>("RockStar","Publisher",2018,"Sfera","Trap",11  ));});
 
 
-
     QObject::connect(pView.get(), &View::loadButtonClicked, this, [this](const QString& filepath) {
 		XMLSerializer xml;
 		xml.load(filepath, *pModel);
