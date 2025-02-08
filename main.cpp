@@ -1,38 +1,53 @@
-#include <QApplication>
-#include <QGuiApplication>
-#include <QFile>
-#include <QDebug>
+#pragma once
+
 #include "Biblioteca.h"
-#include "View.h"
-#include "Controller.h"
+#include "Observer.h" // La versione non-templata
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
+#include <QtWidgets/QStackedWidget>
 #include <memory>
 
-int main(int argc, char *argv[])
-{
-    // In Qt6 l'alta densità è abilitata di default, ma puoi impostare la politica di arrotondamento:
-    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+class View : public QMainWindow, public Observer {
+    Q_OBJECT
+public:
+    View(ModelPtr model)
+        : pModel(model)
+        , listPage(new QWidget(this))
+    { }
 
-    QApplication app(argc, argv);
+    void init();
+    // Override dell'interfaccia Observer
+    virtual void update() override;
+    void display(const std::vector<MediaPtr>& medias);
+    void showEditForm(const MediaPtr& media, bool isNew);
 
-    // Carica lo style sheet dalle risorse
-    QFile file(":/style.qss");
-    if(file.open(QFile::ReadOnly | QFile::Text)) {
-        QString styleSheet = QLatin1String(file.readAll());
-        app.setStyleSheet(styleSheet);
-    } else {
-        qDebug() << "Impossibile aprire il file style.qss";
-    }
+signals:
+    void addBookButtonClicked();
+    void addFilmButtonClicked();
+    void addMusicAlbumButtonClicked();
 
-    auto model = std::make_shared<Model>();
-    auto view = std::make_shared<View>(model);
-    auto controller = std::make_shared<Controller>(model, view);
+    void saveButtonClicked(const QString& path);
+    void loadButtonClicked(const QString& path);
 
-    view->init();
-    controller->init();
+    void searchButtonClicked(const QString& query);
+    void resetButtonClicked();
 
-    model->registerObserver(controller.get());
-    controller->registerObserver(view.get());
+    void removeMedia(const MediaPtr& media);
+    void newMediaCreated(const MediaPtr& media);
 
-    view->show();
-    return app.exec();
-}
+private:
+    void clearLayout(class QLayout* layout);
+
+private:
+    ModelPtr pModel;
+    QStackedWidget* stackWidget { nullptr };
+
+    // Pagina della list view
+    QWidget* listPage { nullptr };
+    QLineEdit* searchBar { nullptr };
+    QPushButton* resetButton { nullptr };
+    QScrollArea* scrollArea { nullptr };
+    QWidget* mediaContainer { nullptr };
+};

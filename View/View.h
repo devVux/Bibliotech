@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Biblioteca.h"
-#include "Observer.h"
+#include "Observer.h" // La versione non-templata
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -9,7 +9,7 @@
 #include <QtWidgets/QStackedWidget>
 #include <memory>
 
-class View : public QMainWindow, public Observer<Biblioteca> {
+class View : public QMainWindow, public Observer {
     Q_OBJECT
 public:
     View(ModelPtr model)
@@ -18,7 +18,8 @@ public:
     { }
 
     void init();
-    virtual void update(void* data) override;
+    // Override dell'interfaccia Observer
+    virtual void update() override;
     void display(const std::vector<MediaPtr>& medias);
     void showEditForm(const MediaPtr& media, bool isNew);
 

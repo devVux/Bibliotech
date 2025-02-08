@@ -2,12 +2,10 @@
 
 #include "Biblioteca.h"
 #include "View.h"
-#include "Observer.h"
+#include "Observer.h" // La versione non-templata
 #include <QtCore/QObject>
 
-/// Assumiamo che il tipo del modello sia Biblioteca.
-/// Il Controller eredita da Observer<Biblioteca> e Subject<Biblioteca>.
-class Controller : public QObject, public Observer<Biblioteca>, public Subject<Biblioteca> {
+class Controller : public QObject, public Observer, public Subject {
     Q_OBJECT
 public:
     Controller(ModelPtr model, ViewPtr view)
@@ -16,21 +14,19 @@ public:
 
     void init();
 
-protected:
-    // Notifica tutti gli osservatori (eccetto se stesso), passando l'indirizzo di mQuery.
-    virtual void notifyAll() override {
-        for (Observer<Biblioteca>* observer : mObservers) {
-            if (observer != this) {
-                observer->update(&mQuery);
-            }
+    // Override dell'interfaccia Observer
+    virtual void update() override { /* Nessuna azione specifica per il Controller */ }
+
+    // Metodo per notificare gli osservatori
+    void notifyAll() {
+        for (Observer* observer : mObservers) {
+            if (observer != this)
+                observer->update();
         }
     }
-    
-    // Il metodo update non deve fare nulla qui per evitare loop
-    virtual void update(void* data) override { (void)data; }
 
 private:
     ModelPtr pModel;
     ViewPtr pView;
-    QString mQuery;
+    QString mQuery;  // Il filtro corrente (se presente)
 };
