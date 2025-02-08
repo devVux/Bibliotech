@@ -2,6 +2,7 @@
 
 #include "Biblioteca.h"
 #include "Observer.h"
+
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -9,17 +10,23 @@
 #include <QtWidgets/QStackedWidget>
 #include <memory>
 
-class View : public QMainWindow, public Observer {
+class View;
+using ViewPtr = std::shared_ptr<View>;
+using ConstViewPtr = std::shared_ptr<const View>;
+
+class View: public QMainWindow, public Observer {
     Q_OBJECT
 public:
     View(ModelPtr model)
-        : pModel(model), listPage(new QWidget(this))
+        : pModel(model)
+        , listPage(new QWidget(this))
     { }
 
     void init();
-    // Override dell'interfaccia Observer
-    virtual void update() override;
+    virtual void update(void* data) override;
     void display(const std::vector<MediaPtr>& medias);
+
+    
     void showEditForm(const MediaPtr& media, bool isNew);
 
 signals:
@@ -34,6 +41,8 @@ signals:
     void resetButtonClicked();
 
     void removeMedia(const MediaPtr& media);
+
+    
     void newMediaCreated(const MediaPtr& media);
 
 private:
