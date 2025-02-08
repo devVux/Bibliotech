@@ -5,7 +5,7 @@
 
 class Visitor;
 
-class Media: public SubjectNoParameters {
+class Media: public Subject {
 
 	public:
 
@@ -31,6 +31,14 @@ class Media: public SubjectNoParameters {
 				notifyAll();
 				mDirty = false;
 			}
+		}
+
+
+	protected:
+
+		virtual void notifyAll() override {
+			for (Observer* observer : mObservers)
+				observer->update(nullptr);
 		}
 
 
