@@ -1,0 +1,48 @@
+/* Imposta uno sfondo per la finestra principale */
+QMainWindow {
+    background-color: #f0f0f0;
+}
+
+/* Stile per la toolbar */
+QToolBar {
+    background: #d0d0d0;
+    spacing: 5px;
+    padding: 5px;
+}
+
+/* Stile per i pulsanti della toolbar (e in generale per i QToolButton) */
+QToolButton {
+    padding: 10px;
+    margin: 5px;
+}
+
+/* Esempio per i pulsanti standard */
+QPushButton {
+    background-color: #77DD77;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+QPushButton:hover {
+    background-color: #45a049;
+}
+
+/* Stile per le linee di input */
+QLineEdit {
+    border: 1px solid gray;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+/* Stile per lo scroll area */
+QScrollArea {
+    background-color: #ffffff;
+}
+
+/* Imposta il font per tutti i widget */
+QWidget {
+    font-family: Arial, sans-serif;
+    font-size: 12pt;
+}

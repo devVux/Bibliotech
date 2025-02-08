@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Biblioteca>
+    <!-- Libro di informatica (esempio) -->
+    <Book
+        title="Programmare in C++"
+        publisher="Tech Books"
+        year="2022"
+        author="Mario Rossi"
+        plot="Una guida completa alla programmazione in C++, dalle basi alle funzionalità avanzate."
+    />
+
+    <!-- Film: Il Gladiatore -->
+    <Film
+        title="Il Gladiatore"
+        publisher="DreamWorks - Riedizione Speciale"
+        year="2021"
+        director="Ridley Scott"
+        plot="La storia epica del generale romano Massimo Decimo Meridio in cerca di vendetta."
+        duration="155"
+    />
+
+    <!-- Album di Sfera Ebbasta (Famoso, 2020) -->
+    <MusicAlbum
+        title="Famoso"
+        publisher="Island Records"
+        year="2020"
+        artist="Sfera Ebbasta"
+        genre="Trap"
+        trackCount="13"
+    />
+</Biblioteca>

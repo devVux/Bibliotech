@@ -50,8 +50,12 @@ msvc {
 }
 
 DESTDIR = bin
+RESOURCES += resources.qrc
+QT += svg
 
 OBJECTS_DIR = build/obj
 MOC_DIR = build/moc
 RCC_DIR = build/rcc
 UI_DIR = build/ui
+
+

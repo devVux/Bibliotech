@@ -2,25 +2,30 @@
 
 #include <QtWidgets/QWidget>
 #include "Visitor.h"
-
-class QDialog;
+#include <functional>
 
 class FormVisitor: public Visitor {
-	
-	public:
-		
-		FormVisitor(QWidget* parent): pParent(parent), pDialog(nullptr) { }
-		
-		virtual void visit(Film& film) override;
-		virtual void visit(Book& book) override;
-		virtual void visit(MusicAlbum& album) override;  //
+public:
+   
+    FormVisitor(QWidget* parent)
+        : saved(false)
+        , pParent(parent)
+        , pFormWidget(nullptr)
+    { }
 
-		QDialog* dialog() const { return pDialog; }
+    virtual ~FormVisitor() { }
 
+    virtual void visit(Film& film) override;
+    virtual void visit(Book& book) override;
+    virtual void visit(MusicAlbum& album) override;
 
-	private:
-		
-		QWidget* pParent { nullptr };
-		QDialog* pDialog { nullptr };
+    QWidget* widget() const { return pFormWidget; }
 
+ 
+    std::function<void(QWidget*)> onFinish;
+    bool saved;
+
+private:
+    QWidget* pParent;
+    QWidget* pFormWidget;
 };
