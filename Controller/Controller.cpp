@@ -7,7 +7,6 @@
 
 void Controller::init() {
 
-    // TODO: set reasonable default media values
 	QObject::connect(pView.get(), &View::addBookButtonClicked, this, [this]() {
 		pModel->addMedia(std::make_shared<Book>("Title", "Publisher", 2020, "Author", "Plot"));
 	});
@@ -16,7 +15,6 @@ void Controller::init() {
     });
     QObject::connect(pView.get(), &View::addMusicAlbumButtonClicked, this, [this](){
     pModel->addMedia(std::make_shared<MusicAlbum>("RockStar","Publisher",2018,"Sfera","Trap",11  ));});
-
 
 
     QObject::connect(pView.get(), &View::loadButtonClicked, this, [this](const QString& filepath) {
@@ -30,18 +28,15 @@ void Controller::init() {
 	
 		
 	QObject::connect(pView.get(), &View::searchButtonClicked, this, [this](const QString& query) {
-		mQuery = query;
-        notifyAll();
+		pModel->search(query);
 	});
 	QObject::connect(pView.get(), &View::resetButtonClicked, this, [this]() {
-		mQuery.clear();
-        notifyAll();
+		pModel->search("");
 	});
 
 
 	QObject::connect(pView.get(), &View::removeMedia, this, [this](const MediaPtr& media) {
 		pModel->removeMedia(media);
-        notifyAll();
 	});
 
 

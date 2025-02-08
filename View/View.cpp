@@ -1,5 +1,7 @@
 #include "View.h"
 
+#include "Biblioteca.h"
+
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QLayout>
@@ -9,6 +11,10 @@
 #include <QtVisitor.h>
 #include <FormVisitor.h>
 
+
+View::View(ModelPtr model): pModel(model), pContent(new QWidget(this)) {
+	pModel->registerObserver(this);
+}
 
 void View::init() {
 
@@ -53,21 +59,15 @@ void View::init() {
 
 }
 
-void View::update(void* data) {
-    const QString& filter = *static_cast<QString*>(data);
-	display(pModel->search(filter));
-}
-
-void View::display(const std::vector<MediaPtr>& medias) {
+void View::update(const ModelData& data) {
 	auto layout = pContent->layout();
 	if (!layout)
 		layout = new QVBoxLayout(pContent);
 
 	clearLayout(layout);
 
-
 	QtVisitor visitor(pContent);
-    for (const MediaPtr& media : medias) {
+    for (const MediaPtr& media : data.medias) {
 		media->accept(&visitor);
 
 		auto w = visitor.widget();

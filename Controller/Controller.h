@@ -6,7 +6,7 @@
 
 #include <QtCore/QObject>
 
-class Controller: public QObject, public Observer, public Subject {
+class Controller: public QObject {
 	Q_OBJECT
 
 	public:
@@ -14,23 +14,11 @@ class Controller: public QObject, public Observer, public Subject {
 		Controller(ModelPtr model, ViewPtr view): pModel(model), pView(view) { }
 		
 		void init();
-		void addMusicAlbum(); //
 	
-	protected:
-
-		virtual void notifyAll() override {
-			for (Observer* observer : mObservers)
-				observer->update(&mQuery);
-		}
-
-        virtual void update(void*) override { notifyAll(); }
-
 
 	private:
 		
 		ModelPtr pModel;
 		ViewPtr pView;
-
-		QString mQuery;
 
 };
