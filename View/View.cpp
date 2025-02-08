@@ -66,7 +66,6 @@ void View::update(const ModelData& data) {
 
 	clearLayout(layout);
 
-
 	QtVisitor visitor(pContent);
     for (const MediaPtr& media : data.medias) {
 		media->accept(&visitor);

@@ -15,6 +15,7 @@ using ModelPtr = std::shared_ptr<Model>;
 
 struct ModelData {
 	const std::vector<MediaPtr> medias;
+    const QString& query { };
 };
 
 class Biblioteca: public Subject<ModelData>, public ObserverNoParameters {

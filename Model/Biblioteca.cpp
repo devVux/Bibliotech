@@ -20,7 +20,7 @@ std::vector<MediaPtr> Biblioteca::search(const QString& s) {
 		if (media->mathes(s))
             result.push_back(media);
 
-    notifyAll({ result });
+    notifyAll({ result, s });
 
 	return result;
 }
