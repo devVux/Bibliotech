@@ -21,19 +21,16 @@
 void View::init() {
     // Creazione della toolbar
     auto toolbar = new QToolBar(this);
-   
     toolbar->setIconSize(QSize(48, 48));
-    
     toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
-    // Aggiunta di azioni con icone (assicurati che i percorsi siano corretti)
+    // Aggiunta di azioni con icone
     QAction* loadAction = toolbar->addAction(QIcon(":/icons/load.svg"), "Load");
     QAction* saveAction = toolbar->addAction(QIcon(":/icons/save.svg"), "Save");
     QAction* addBookAction = toolbar->addAction(QIcon(":/icons/book.svg"), "Add Book");
     QAction* addFilmAction = toolbar->addAction(QIcon(":/icons/film.svg"), "Add Film");
     QAction* addMusicAlbumAction = toolbar->addAction(QIcon(":/icons/music.svg"), "Add Music Album");
 
-    // Connessioni per le azioni "add"
     connect(addBookAction, &QAction::triggered, this, [this]() {
         qDebug() << "Add Book triggered";
         emit addBookButtonClicked();
@@ -46,27 +43,24 @@ void View::init() {
         qDebug() << "Add Music Album triggered";
         emit addMusicAlbumButtonClicked();
     });
-
-    // Connessioni per Load e Save
     connect(loadAction, &QAction::triggered, this, [this]() {
         QString filePath = QFileDialog::getOpenFileName(this, "Load File", "dump.xml", "XML Files (*.xml);;All Files (*)");
         if (!filePath.isEmpty()) {
-            qDebug() << "Load triggered: " << filePath;
+            qDebug() << "Load triggered:" << filePath;
             emit loadButtonClicked(filePath);
         }
     });
     connect(saveAction, &QAction::triggered, this, [this]() {
         QString filePath = QFileDialog::getSaveFileName(this, "Save File", "", "XML Files (*.xml);;All Files (*)");
         if (!filePath.isEmpty()) {
-            qDebug() << "Save triggered: " << filePath;
+            qDebug() << "Save triggered:" << filePath;
             emit saveButtonClicked(filePath);
         }
     });
 
     addToolBar(toolbar);
 
-    // Usa QTimer::singleShot per impostare la SizePolicy dei pulsanti della toolbar
-    // dopo che sono stati completamente creati.
+    // Imposta la SizePolicy dei pulsanti della toolbar dopo la creazione completa
     QTimer::singleShot(0, [toolbar]() {
         for (QAction* action : toolbar->actions()) {
             QWidget* widget = toolbar->widgetForAction(action);
@@ -77,11 +71,11 @@ void View::init() {
         }
     });
 
-    
+    // Costruzione della pagina di list view
     listPage = new QWidget(this);
     QVBoxLayout* listLayout = new QVBoxLayout(listPage);
 
-    // --- Creazione del widget di ricerca ---
+    // Creazione del widget di ricerca
     QWidget* searchWidget = new QWidget(listPage);
     QHBoxLayout* searchLayout = new QHBoxLayout(searchWidget);
     searchBar = new QLineEdit(searchWidget);
@@ -92,7 +86,7 @@ void View::init() {
     searchWidget->setLayout(searchLayout);
     listLayout->addWidget(searchWidget);
 
-    // --- Creazione dello scroll area per la lista dei media ---
+    // Creazione dello scroll area per la lista dei media
     scrollArea = new QScrollArea(listPage);
     mediaContainer = new QWidget();
     QVBoxLayout* mediaLayout = new QVBoxLayout(mediaContainer);
@@ -103,6 +97,7 @@ void View::init() {
 
     listPage->setLayout(listLayout);
 
+    // Creazione dello stack widget: la list view viene inserita per prima
     stackWidget = new QStackedWidget(this);
     stackWidget->addWidget(listPage);
     setCentralWidget(stackWidget);
@@ -172,7 +167,6 @@ void View::showEditForm(const MediaPtr& media, bool isNew) {
             if (isNew) {
                 emit newMediaCreated(media);
             } else {
-                // Forza un aggiornamento
                 emit searchButtonClicked(searchBar->text());
             }
         }

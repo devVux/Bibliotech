@@ -5,8 +5,9 @@
 #include "Observer.h"
 #include <QtCore/QObject>
 
-/// Il Controller eredita da Observer e Subject (oltre a QObject)
-class Controller: public QObject, public Observer, public Subject {
+/// Assumiamo che il tipo del modello sia Biblioteca.
+/// Il Controller eredita da Observer<Biblioteca> e Subject<Biblioteca>.
+class Controller : public QObject, public Observer<Biblioteca>, public Subject<Biblioteca> {
     Q_OBJECT
 public:
     Controller(ModelPtr model, ViewPtr view)
@@ -16,17 +17,16 @@ public:
     void init();
 
 protected:
-    // Override di notifyAll() per trasmettere il filtro di ricerca
+    // Notifica tutti gli osservatori (eccetto se stesso), passando l'indirizzo di mQuery.
     virtual void notifyAll() override {
-        // Notifica tutti gli osservatori (es. la View), passando l'indirizzo di mQuery
-        for (Observer* observer : mObservers) {
+        for (Observer<Biblioteca>* observer : mObservers) {
             if (observer != this) {
                 observer->update(&mQuery);
             }
         }
     }
-
-    // Il metodo update del Controller non deve eseguire alcuna azione per evitare loop
+    
+    // Il metodo update non deve fare nulla qui per evitare loop
     virtual void update(void* data) override { (void)data; }
 
 private:
