@@ -26,14 +26,14 @@ void View::init() {
     
     toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
-    // Aggiunta di azioni con icone (assicurati che i percorsi siano corretti)
+    
     QAction* loadAction = toolbar->addAction(QIcon(":/icons/load.svg"), "Load");
     QAction* saveAction = toolbar->addAction(QIcon(":/icons/save.svg"), "Save");
     QAction* addBookAction = toolbar->addAction(QIcon(":/icons/book.svg"), "Add Book");
     QAction* addFilmAction = toolbar->addAction(QIcon(":/icons/film.svg"), "Add Film");
     QAction* addMusicAlbumAction = toolbar->addAction(QIcon(":/icons/music.svg"), "Add Music Album");
 
-    // Connessioni per le azioni "add"
+    
     connect(addBookAction, &QAction::triggered, this, [this]() {
         qDebug() << "Add Book triggered";
         emit addBookButtonClicked();
@@ -47,7 +47,7 @@ void View::init() {
         emit addMusicAlbumButtonClicked();
     });
 
-    // Connessioni per Load e Save
+    
     connect(loadAction, &QAction::triggered, this, [this]() {
         QString filePath = QFileDialog::getOpenFileName(this, "Load File", "dump.xml", "XML Files (*.xml);;All Files (*)");
         if (!filePath.isEmpty()) {
@@ -65,8 +65,7 @@ void View::init() {
 
     addToolBar(toolbar);
 
-    // Usa QTimer::singleShot per impostare la SizePolicy dei pulsanti della toolbar
-    // dopo che sono stati completamente creati.
+    
     QTimer::singleShot(0, [toolbar]() {
         for (QAction* action : toolbar->actions()) {
             QWidget* widget = toolbar->widgetForAction(action);
@@ -81,7 +80,7 @@ void View::init() {
     listPage = new QWidget(this);
     QVBoxLayout* listLayout = new QVBoxLayout(listPage);
 
-    // --- Creazione del widget di ricerca ---
+    //ricerca vincolo 14
     QWidget* searchWidget = new QWidget(listPage);
     QHBoxLayout* searchLayout = new QHBoxLayout(searchWidget);
     searchBar = new QLineEdit(searchWidget);
@@ -92,7 +91,7 @@ void View::init() {
     searchWidget->setLayout(searchLayout);
     listLayout->addWidget(searchWidget);
 
-    // --- Creazione dello scroll area per la lista dei media ---
+    
     scrollArea = new QScrollArea(listPage);
     mediaContainer = new QWidget();
     QVBoxLayout* mediaLayout = new QVBoxLayout(mediaContainer);
@@ -107,7 +106,7 @@ void View::init() {
     stackWidget->addWidget(listPage);
     setCentralWidget(stackWidget);
 
-    // Connessioni per la barra di ricerca e il pulsante reset
+    
     connect(searchBar, &QLineEdit::textChanged, this, [this](const QString &text) {
         qDebug() << "Search text changed:" << text;
         emit searchButtonClicked(text);
@@ -144,13 +143,13 @@ void View::display(const std::vector<MediaPtr>& medias) {
             continue;
         }
 
-        // Collegamento per il tasto "Delete"
+        
         connect(w, &MediaWidget::deleteButtonClicked, this, [this, media]() {
             qDebug() << "Delete clicked";
             emit removeMedia(media);
         });
 
-        // Collegamento per il tasto "Edit"
+        
         connect(w, &MediaWidget::editButtonClicked, this, [this, media]() {
             qDebug() << "Edit clicked";
             showEditForm(media, false);
@@ -172,7 +171,7 @@ void View::showEditForm(const MediaPtr& media, bool isNew) {
             if (isNew) {
                 emit newMediaCreated(media);
             } else {
-                // Forza un aggiornamento
+                //Forziamo un agg
                 emit searchButtonClicked(searchBar->text());
             }
         }

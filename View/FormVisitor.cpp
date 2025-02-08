@@ -7,7 +7,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QHBoxLayout>
 
-// --- Caso Film ---
+
 void FormVisitor::visit(Film& film) {
     pFormWidget = new QWidget(pParent);
     pFormWidget->setWindowTitle("Edit Film");
@@ -38,10 +38,10 @@ void FormVisitor::visit(Film& film) {
     buttonLayout->addWidget(cancelButton);
     formLayout->addRow(buttonLayout);
 
-    QWidget* form = pFormWidget; // variabile locale da catturare per valore nei lambda
+    QWidget* form = pFormWidget; // VAR LOC per lambda
 
     QObject::connect(saveButton, &QPushButton::clicked, form, [=, &film, this]() {
-        this->saved = true; // segnala che l'utente ha premuto Save
+        this->saved = true; // utente ha premuto save
         film.title(titleEdit->text());
         film.publisher(publisherEdit->text());
         film.year(static_cast<uint32_t>(yearEdit->value()));
@@ -58,7 +58,7 @@ void FormVisitor::visit(Film& film) {
     });
 }
 
-// --- Caso Book ---
+
 void FormVisitor::visit(Book& book) {
     pFormWidget = new QWidget(pParent);
     pFormWidget->setWindowTitle("Edit Book");
@@ -103,7 +103,7 @@ void FormVisitor::visit(Book& book) {
     });
 }
 
-// --- Caso MusicAlbum ---
+
 void FormVisitor::visit(MusicAlbum& album) {
     pFormWidget = new QWidget(pParent);
     pFormWidget->setWindowTitle("Edit Music Album");
