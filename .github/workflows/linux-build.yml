@@ -25,7 +25,8 @@ jobs:
           target: 'desktop'
           arch: 'linux_gcc_64'
           cache: 'true'
-          setup-python: 'true'
+          # Disabilitiamo il setup Python perché non è necessario (evita errori)
+          setup-python: 'false'
           set-env: 'true'
           archives: 'qtbase qttools qtsvg icu'
 
