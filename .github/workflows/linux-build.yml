@@ -17,12 +17,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-          cache: 'true'
-
       - name: Set up Qt
         uses: jurplel/install-qt-action@v4
         with:
@@ -31,6 +25,7 @@ jobs:
           target: 'desktop'
           arch: 'linux_gcc_64'
           cache: 'true'
+          setup-python: 'false'
           set-env: 'true'
           archives: 'qtbase qttools qtsvg icu'
 
