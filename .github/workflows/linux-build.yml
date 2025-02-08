@@ -20,7 +20,7 @@ jobs:
       - name: Set up Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: '6.7.1'
+          version: '6.2.4'
           host: 'linux'
           target: 'desktop'
           arch: 'linux_gcc_64'
@@ -36,6 +36,6 @@ jobs:
 
       - name: Build project
         run: |
-          export PATH=$QT_ROOT_DIR/6.7.1/gcc_64/bin:$PATH
+          export PATH=$QT_ROOT_DIR/6.2.4/gcc_64/bin:$PATH
           qmake Bibliotech.pro CONFIG+=release
           make -j$(nproc)
