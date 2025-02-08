@@ -4,46 +4,58 @@
 #include "Observer.h"
 
 #include <QtWidgets/QMainWindow>
-#include <QtCore/QString>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
+#include <QtWidgets/QStackedWidget>
+#include <memory>
 
 class View;
 using ViewPtr = std::shared_ptr<View>;
+using ConstViewPtr = std::shared_ptr<const View>;
 
-class View: public QMainWindow, public Observer<ModelData> {
-	Q_OBJECT
+class View: public QMainWindow, public Observer {
+    Q_OBJECT
+public:
+    View(ModelPtr model)
+        : pModel(model)
+        , listPage(new QWidget(this))
+    { }
 
-	public:
+    void init();
+    virtual void update(void* data) override;
+    void display(const std::vector<MediaPtr>& medias);
 
-        View(ModelPtr model);
+    
+    void showEditForm(const MediaPtr& media, bool isNew);
 
-		void init();
+signals:
+    void addBookButtonClicked();
+    void addFilmButtonClicked();
+    void addMusicAlbumButtonClicked();
 
-        virtual void update(const ModelData& data) override;
+    void saveButtonClicked(const QString& path);
+    void loadButtonClicked(const QString& path);
 
+    void searchButtonClicked(const QString& query);
+    void resetButtonClicked();
 
-	signals:
+    void removeMedia(const MediaPtr& media);
 
-		void addBookButtonClicked();
-		void addFilmButtonClicked();
-		void addMusicAlbumButtonClicked();
-		
-		void saveButtonClicked(const QString& path);
-		void loadButtonClicked(const QString& path);
+    
+    void newMediaCreated(const MediaPtr& media);
 
-		void searchButtonClicked(const QString& query);
-		void resetButtonClicked();
+private:
+    void clearLayout(class QLayout* layout);
 
-		void removeMedia(const MediaPtr& media);
+private:
+    ModelPtr pModel;
+    QStackedWidget* stackWidget { nullptr };
 
-
-	private:
-
-		void clearLayout(class QLayout* layout);
-
-
-	private:
-
-		ModelPtr pModel;
-		QWidget* pContent { nullptr };
-
+    // Pagina della list view
+    QWidget* listPage { nullptr };
+    QLineEdit* searchBar { nullptr };
+    QPushButton* resetButton { nullptr };
+    QScrollArea* scrollArea { nullptr };
+    QWidget* mediaContainer { nullptr };
 };
