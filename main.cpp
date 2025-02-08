@@ -1,53 +1,43 @@
-#pragma once
-
-#include "Biblioteca.h"
-#include "Observer.h" // La versione non-templata
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QScrollArea>
-#include <QtWidgets/QStackedWidget>
+#include <QApplication>
+#include <QGuiApplication>
+#include <QFile>
+#include <QDebug>
+#include "Biblioteca.h"  // Include il modello (in questo esempio, Biblioteca)
+#include "View.h"
+#include "Controller.h"
 #include <memory>
 
-class View : public QMainWindow, public Observer {
-    Q_OBJECT
-public:
-    View(ModelPtr model)
-        : pModel(model)
-        , listPage(new QWidget(this))
-    { }
+int main(int argc, char *argv[])
+{
+    // In Qt6 l'alta densità è abilitata di default, ma possiamo impostare la politica di arrotondamento se necessario:
+    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 
-    void init();
-    // Override dell'interfaccia Observer
-    virtual void update() override;
-    void display(const std::vector<MediaPtr>& medias);
-    void showEditForm(const MediaPtr& media, bool isNew);
+    QApplication app(argc, argv);
 
-signals:
-    void addBookButtonClicked();
-    void addFilmButtonClicked();
-    void addMusicAlbumButtonClicked();
+    // Carica lo stylesheet dalle risorse (assicurati che style.qss sia correttamente referenziato nel file resources.qrc)
+    QFile file(":/style.qss");
+    if(file.open(QFile::ReadOnly | QFile::Text)) {
+        QString styleSheet = QLatin1String(file.readAll());
+        app.setStyleSheet(styleSheet);
+    } else {
+        qDebug() << "Impossibile aprire il file style.qss";
+    }
 
-    void saveButtonClicked(const QString& path);
-    void loadButtonClicked(const QString& path);
+    // Crea il modello, la view e il controller utilizzando smart pointer.
+    // Assumiamo che il modello sia di tipo Biblioteca.
+    auto model = std::make_shared<Biblioteca>();
+    auto view = std::make_shared<View>(model);
+    auto controller = std::make_shared<Controller>(model, view);
 
-    void searchButtonClicked(const QString& query);
-    void resetButtonClicked();
+    // Inizializza View e Controller
+    view->init();
+    controller->init();
 
-    void removeMedia(const MediaPtr& media);
-    void newMediaCreated(const MediaPtr& media);
+    // Registra gli observer: il modello notifica il Controller, che notifica la View.
+    model->registerObserver(controller.get());
+    controller->registerObserver(view.get());
 
-private:
-    void clearLayout(class QLayout* layout);
+    view->show();
 
-private:
-    ModelPtr pModel;
-    QStackedWidget* stackWidget { nullptr };
-
-    // Pagina della list view
-    QWidget* listPage { nullptr };
-    QLineEdit* searchBar { nullptr };
-    QPushButton* resetButton { nullptr };
-    QScrollArea* scrollArea { nullptr };
-    QWidget* mediaContainer { nullptr };
-};
+    return app.exec();
+}
