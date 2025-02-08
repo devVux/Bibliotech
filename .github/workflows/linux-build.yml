@@ -36,6 +36,5 @@ jobs:
 
       - name: Build project
         run: |
-          export PATH=$QT_ROOT_DIR/6.2.4/gcc_64/bin:$PATH
           qmake Bibliotech.pro CONFIG+=release
           make -j$(nproc)
