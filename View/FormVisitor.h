@@ -6,11 +6,11 @@
 
 class FormVisitor: public Visitor {
 public:
-   
     FormVisitor(QWidget* parent)
-        : saved(false)
-        , pParent(parent)
+        : pParent(parent)
         , pFormWidget(nullptr)
+        , saved(false)
+        , onFinish(nullptr)
     { }
 
     virtual ~FormVisitor() { }
@@ -21,7 +21,6 @@ public:
 
     QWidget* widget() const { return pFormWidget; }
 
- 
     std::function<void(QWidget*)> onFinish;
     bool saved;
 

@@ -1,11 +1,11 @@
 #include "FormVisitor.h"
-
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QHBoxLayout>
+#include <QDebug>
 
 // --- Caso Film ---
 void FormVisitor::visit(Film& film) {
@@ -33,15 +33,16 @@ void FormVisitor::visit(Film& film) {
 
     QHBoxLayout* buttonLayout = new QHBoxLayout();
     QPushButton* saveButton = new QPushButton("Save");
+    saveButton->setObjectName("saveButton");
     QPushButton* cancelButton = new QPushButton("Cancel");
+    cancelButton->setObjectName("cancelButton");
     buttonLayout->addWidget(saveButton);
     buttonLayout->addWidget(cancelButton);
     formLayout->addRow(buttonLayout);
 
-    QWidget* form = pFormWidget; // variabile locale da catturare per valore nei lambda
-
+    QWidget* form = pFormWidget;
     QObject::connect(saveButton, &QPushButton::clicked, form, [=, &film, this]() {
-        this->saved = true; // segnala che l'utente ha premuto Save
+        this->saved = true;
         film.title(titleEdit->text());
         film.publisher(publisherEdit->text());
         film.year(static_cast<uint32_t>(yearEdit->value()));
@@ -80,7 +81,9 @@ void FormVisitor::visit(Book& book) {
 
     QHBoxLayout* buttonLayout = new QHBoxLayout();
     QPushButton* saveButton = new QPushButton("Save");
+    saveButton->setObjectName("saveButton");
     QPushButton* cancelButton = new QPushButton("Cancel");
+    cancelButton->setObjectName("cancelButton");
     buttonLayout->addWidget(saveButton);
     buttonLayout->addWidget(cancelButton);
     formLayout->addRow(buttonLayout);
@@ -129,7 +132,9 @@ void FormVisitor::visit(MusicAlbum& album) {
 
     QHBoxLayout* buttonLayout = new QHBoxLayout();
     QPushButton* saveButton = new QPushButton("Save");
+    saveButton->setObjectName("saveButton");
     QPushButton* cancelButton = new QPushButton("Cancel");
+    cancelButton->setObjectName("cancelButton");
     buttonLayout->addWidget(saveButton);
     buttonLayout->addWidget(cancelButton);
     formLayout->addRow(buttonLayout);

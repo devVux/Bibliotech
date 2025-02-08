@@ -2,7 +2,7 @@
 
 #include "Biblioteca.h"
 #include "View.h"
-#include "Observer.h" // La versione non-templata
+#include "Observer.h"
 #include <QtCore/QObject>
 
 class Controller : public QObject, public Observer, public Subject {
@@ -14,11 +14,11 @@ public:
 
     void init();
 
-    // Override dell'interfaccia Observer
+    // Observer override (qui non serve fare nulla)
     virtual void update() override { /* Nessuna azione specifica per il Controller */ }
 
     // Metodo per notificare gli osservatori
-    void notifyAll() {
+    void notifyAllObservers() {
         for (Observer* observer : mObservers) {
             if (observer != this)
                 observer->update();
@@ -28,5 +28,5 @@ public:
 private:
     ModelPtr pModel;
     ViewPtr pView;
-    QString mQuery;  // Il filtro corrente (se presente)
+    QString mQuery;  // Il filtro corrente (gestito dal Controller)
 };

@@ -5,55 +5,40 @@
 #include "XMLSerializer.h"
 
 void Controller::init() {
-
-    // Collegamento per "Add Book" con valori di default (placeholder)
+    // Collegamento per "Add Book"
     QObject::connect(pView.get(), &View::addBookButtonClicked, this, [this]() {
          auto newBook = std::make_shared<Book>(
-             "New Book",             // Titolo di default
-             "Default Publisher",    // Publisher di default
-             2000,                   // Anno di default
-             "Unknown Author",       // Autore di default
-             "No Plot"               // Trama di default
+             "New Book", "Default Publisher", 2000, "Unknown Author", "No Plot"
          );
          mQuery.clear();
          pView->showEditForm(newBook, true);
-         notifyAll();
+         notifyAllObservers();
     });
 
     // Collegamento per "Add Film"
     QObject::connect(pView.get(), &View::addFilmButtonClicked, this, [this]() {
          auto newFilm = std::make_shared<Film>(
-             "New Film",             // Titolo di default
-             "Default Publisher",    // Publisher di default
-             2000,                   // Anno di default
-             "Unknown Director",     // Regista di default
-             "No Plot",              // Trama di default
-             90                      // Durata di default (in minuti)
+             "New Film", "Default Publisher", 2000, "Unknown Director", "No Plot", 90
          );
          mQuery.clear();
          pView->showEditForm(newFilm, true);
-         notifyAll();
+         notifyAllObservers();
     });
 
     // Collegamento per "Add Music Album"
     QObject::connect(pView.get(), &View::addMusicAlbumButtonClicked, this, [this]() {
          auto newAlbum = std::make_shared<MusicAlbum>(
-             "New Album",            // Titolo di default
-             "Default Publisher",    // Publisher di default
-             2000,                   // Anno di default
-             "Unknown Artist",       // Artista di default
-             "Pop",                  // Genere di default
-             10                      // Numero di tracce di default
+             "New Album", "Default Publisher", 2000, "Unknown Artist", "Pop", 10
          );
          mQuery.clear();
          pView->showEditForm(newAlbum, true);
-         notifyAll();
+         notifyAllObservers();
     });
     
-    // Quando il form di creazione viene completato (premendo Save)
+    // Collegamento per la notifica dopo Save (creazione o modifica)
     QObject::connect(pView.get(), &View::newMediaCreated, this, [this](const MediaPtr& media) {
          pModel->addMedia(media);
-         notifyAll();
+         notifyAllObservers();
     });
     
     // Caricamento e salvataggio
@@ -61,26 +46,26 @@ void Controller::init() {
         XMLSerializer xml;
         xml.load(filepath, *pModel);
         mQuery.clear();
-        notifyAll();
+        notifyAllObservers();
     });
     QObject::connect(pView.get(), &View::saveButtonClicked, this, [this](const QString& filepath) {
         XMLSerializer xml;
         xml.save(filepath, *pModel);
     });
     
-    // Collegamenti per la ricerca
+    // Ricerca
     QObject::connect(pView.get(), &View::searchButtonClicked, this, [this](const QString& query) {
         mQuery = query;
-        notifyAll();
+        notifyAllObservers();
     });
     QObject::connect(pView.get(), &View::resetButtonClicked, this, [this]() {
         mQuery.clear();
-        notifyAll();
+        notifyAllObservers();
     });
     
     // Rimozione di un media
     QObject::connect(pView.get(), &View::removeMedia, this, [this](const MediaPtr& media) {
         pModel->removeMedia(media);
-        notifyAll();
+        notifyAllObservers();
     });
 }

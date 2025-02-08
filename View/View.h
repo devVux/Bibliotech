@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Biblioteca.h"
-#include "Observer.h" // La versione non-templata
+#include "Observer.h"
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -13,8 +13,7 @@ class View : public QMainWindow, public Observer {
     Q_OBJECT
 public:
     View(ModelPtr model)
-        : pModel(model)
-        , listPage(new QWidget(this))
+        : pModel(model), listPage(new QWidget(this))
     { }
 
     void init();

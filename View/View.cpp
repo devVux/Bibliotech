@@ -24,7 +24,6 @@ void View::init() {
     toolbar->setIconSize(QSize(48, 48));
     toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
-    // Aggiunta di azioni con icone
     QAction* loadAction = toolbar->addAction(QIcon(":/icons/load.svg"), "Load");
     QAction* saveAction = toolbar->addAction(QIcon(":/icons/save.svg"), "Save");
     QAction* addBookAction = toolbar->addAction(QIcon(":/icons/book.svg"), "Add Book");
@@ -114,10 +113,9 @@ void View::init() {
     });
 }
 
-void View::update(void* data) {
-    QString filter;
-    if (data)
-        filter = *static_cast<QString*>(data);
+void View::update() {
+    // Usiamo il testo corrente della searchBar come filtro; se è vuoto, mostra tutti gli elementi
+    QString filter = (searchBar) ? searchBar->text() : "";
     qDebug() << "View::update called with filter:" << filter;
     display(pModel->search(filter));
 }
@@ -139,13 +137,11 @@ void View::display(const std::vector<MediaPtr>& medias) {
             continue;
         }
 
-        // Collegamento per il tasto "Delete"
         connect(w, &MediaWidget::deleteButtonClicked, this, [this, media]() {
             qDebug() << "Delete clicked";
             emit removeMedia(media);
         });
 
-        // Collegamento per il tasto "Edit"
         connect(w, &MediaWidget::editButtonClicked, this, [this, media]() {
             qDebug() << "Edit clicked";
             showEditForm(media, false);
@@ -167,7 +163,9 @@ void View::showEditForm(const MediaPtr& media, bool isNew) {
             if (isNew) {
                 emit newMediaCreated(media);
             } else {
-                emit searchButtonClicked(searchBar->text());
+                // Per ripristinare la visualizzazione completa dopo la modifica, azzeriamo il filtro
+                searchBar->clear();
+                emit resetButtonClicked();
             }
         }
         delete formVisitor;
