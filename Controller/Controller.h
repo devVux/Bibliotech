@@ -2,6 +2,7 @@
 
 #include "Observer.h"
 #include "Biblioteca.h"
+#include "View.h"
 
 #include <QtCore/QObject>
 
@@ -10,7 +11,7 @@ class Controller: public QObject {
 
 	public:
 
-		Controller(ModelPtr model): pModel(model) { }
+		Controller(ModelPtr model, ViewPtr view): pModel(model), pView(view) { }
 		
 		void init();
 	
@@ -18,5 +19,6 @@ class Controller: public QObject {
 	private:
 		
 		ModelPtr pModel;
+		ViewPtr pView;
 
 };

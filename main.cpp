@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 	
 	auto model = std::make_shared<Model>();
 	auto view = std::make_shared<View>(model);
-	auto controller = std::make_shared<Controller>(model);
+	auto controller = std::make_shared<Controller>(model, view);
 
 	view->init();
 	controller->init();
