@@ -27,7 +27,7 @@ jobs:
           cache: 'true'
           setup-python: 'true'
           set-env: 'true'
-          archives: 'qtbase qttools icu'
+          archives: 'qtbase qttools qtsvg icu'
 
       - name: Install dependencies
         run: |
