@@ -35,15 +35,15 @@ void View::init() {
 
     
     connect(addBookAction, &QAction::triggered, this, [this]() {
-        qDebug() << "Add Book triggered";
+        
         emit addBookButtonClicked();
     });
     connect(addFilmAction, &QAction::triggered, this, [this]() {
-        qDebug() << "Add Film triggered";
+        
         emit addFilmButtonClicked();
     });
     connect(addMusicAlbumAction, &QAction::triggered, this, [this]() {
-        qDebug() << "Add Music Album triggered";
+        
         emit addMusicAlbumButtonClicked();
     });
 
@@ -51,14 +51,14 @@ void View::init() {
     connect(loadAction, &QAction::triggered, this, [this]() {
         QString filePath = QFileDialog::getOpenFileName(this, "Load File", "dump.xml", "XML Files (*.xml);;All Files (*)");
         if (!filePath.isEmpty()) {
-            qDebug() << "Load triggered: " << filePath;
+           
             emit loadButtonClicked(filePath);
         }
     });
     connect(saveAction, &QAction::triggered, this, [this]() {
         QString filePath = QFileDialog::getSaveFileName(this, "Save File", "", "XML Files (*.xml);;All Files (*)");
         if (!filePath.isEmpty()) {
-            qDebug() << "Save triggered: " << filePath;
+           
             emit saveButtonClicked(filePath);
         }
     });
@@ -71,7 +71,7 @@ void View::init() {
             QWidget* widget = toolbar->widgetForAction(action);
             if (widget) {
                 widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-                qDebug() << "Set size policy for widget:" << widget;
+                
             }
         }
     });
@@ -108,11 +108,11 @@ void View::init() {
 
     
     connect(searchBar, &QLineEdit::textChanged, this, [this](const QString &text) {
-        qDebug() << "Search text changed:" << text;
+        
         emit searchButtonClicked(text);
     });
     connect(resetButton, &QPushButton::clicked, this, [this]() {
-        qDebug() << "Reset pressed";
+        
         searchBar->clear();
         emit resetButtonClicked();
     });
@@ -122,7 +122,7 @@ void View::update(void* data) {
     QString filter;
     if (data)
         filter = *static_cast<QString*>(data);
-    qDebug() << "View::update called with filter:" << filter;
+    
     display(pModel->search(filter));
 }
 
@@ -139,19 +139,19 @@ void View::display(const std::vector<MediaPtr>& medias) {
         media->accept(&visitor);
         auto w = visitor.widget();
         if (!w) {
-            qDebug() << "Warning: visitor.widget() returned null";
+            
             continue;
         }
 
         
         connect(w, &MediaWidget::deleteButtonClicked, this, [this, media]() {
-            qDebug() << "Delete clicked";
+            
             emit removeMedia(media);
         });
 
         
         connect(w, &MediaWidget::editButtonClicked, this, [this, media]() {
-            qDebug() << "Edit clicked";
+            
             showEditForm(media, false);
         });
 
@@ -163,7 +163,7 @@ void View::showEditForm(const MediaPtr& media, bool isNew) {
     auto* formVisitor = new FormVisitor(listPage);
     formVisitor->onFinish = [this, media, isNew, formVisitor](QWidget* formWidget) {
         bool wasSaved = formVisitor->saved;
-        qDebug() << "onFinish called, wasSaved:" << wasSaved;
+        
         stackWidget->setCurrentWidget(listPage);
         stackWidget->removeWidget(formWidget);
         formWidget->deleteLater();
@@ -180,7 +180,7 @@ void View::showEditForm(const MediaPtr& media, bool isNew) {
     media->accept(formVisitor);
     QWidget* formWidget = formVisitor->widget();
     if (!formWidget) {
-        qDebug() << "Error: formVisitor->widget() returned null";
+        
         delete formVisitor;
         return;
     }

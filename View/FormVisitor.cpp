@@ -40,7 +40,7 @@ void FormVisitor::visit(Film& film) {
 
     QWidget* form = pFormWidget; // VAR LOC per lambda
 
-    QObject::connect(saveButton, &QPushButton::clicked, form, [=, &film, this]() {
+    QObject::connect(saveButton, &QPushButton::clicked, form, [=, &film]() {
         this->saved = true; // utente ha premuto save
         film.title(titleEdit->text());
         film.publisher(publisherEdit->text());
@@ -52,7 +52,7 @@ void FormVisitor::visit(Film& film) {
         if(onFinish)
             onFinish(form);
     });
-    QObject::connect(cancelButton, &QPushButton::clicked, form, [=, this]() {
+    QObject::connect(cancelButton, &QPushButton::clicked, form, [=]() {
         if(onFinish)
             onFinish(form);
     });
@@ -86,7 +86,7 @@ void FormVisitor::visit(Book& book) {
     formLayout->addRow(buttonLayout);
 
     QWidget* form = pFormWidget;
-    QObject::connect(saveButton, &QPushButton::clicked, form, [=, &book, this]() {
+    QObject::connect(saveButton, &QPushButton::clicked, form, [=, &book]() {
         this->saved = true;
         book.title(titleEdit->text());
         book.publisher(publisherEdit->text());
@@ -97,7 +97,7 @@ void FormVisitor::visit(Book& book) {
         if(onFinish)
             onFinish(form);
     });
-    QObject::connect(cancelButton, &QPushButton::clicked, form, [=, this]() {
+    QObject::connect(cancelButton, &QPushButton::clicked, form, [=]() {
         if(onFinish)
             onFinish(form);
     });
@@ -135,7 +135,7 @@ void FormVisitor::visit(MusicAlbum& album) {
     formLayout->addRow(buttonLayout);
 
     QWidget* form = pFormWidget;
-    QObject::connect(saveButton, &QPushButton::clicked, form, [=, &album, this]() {
+    QObject::connect(saveButton, &QPushButton::clicked, form, [=, &album]() {
         this->saved = true;
         album.title(titleEdit->text());
         album.publisher(publisherEdit->text());
@@ -147,7 +147,7 @@ void FormVisitor::visit(MusicAlbum& album) {
         if(onFinish)
             onFinish(form);
     });
-    QObject::connect(cancelButton, &QPushButton::clicked, form, [=, this]() {
+    QObject::connect(cancelButton, &QPushButton::clicked, form, [=]() {
         if(onFinish)
             onFinish(form);
     });
