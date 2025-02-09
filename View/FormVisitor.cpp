@@ -148,6 +148,7 @@ void FormVisitor::visit(MusicAlbum& album) {
             onFinish(form);
     });
     QObject::connect(cancelButton, &QPushButton::clicked, form, [&]() {
+        
         if(onFinish)
             onFinish(form);
     });
