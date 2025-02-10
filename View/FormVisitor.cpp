@@ -52,7 +52,7 @@ void FormVisitor::visit(Film& film) {
         if(onFinish)
             onFinish(form);
     });
-    QObject::connect(cancelButton, &QPushButton::clicked, form, [&]() {
+    QObject::connect(cancelButton, &QPushButton::clicked, form, [=]() {
         if(onFinish)
             onFinish(form);
     });
@@ -97,7 +97,7 @@ void FormVisitor::visit(Book& book) {
         if(onFinish)
             onFinish(form);
     });
-    QObject::connect(cancelButton, &QPushButton::clicked, form, [&]() {
+    QObject::connect(cancelButton, &QPushButton::clicked, form, [=]() {
         if(onFinish)
             onFinish(form);
     });
@@ -147,7 +147,7 @@ void FormVisitor::visit(MusicAlbum& album) {
         if(onFinish)
             onFinish(form);
     });
-    QObject::connect(cancelButton, &QPushButton::clicked, form, [&]() {
+    QObject::connect(cancelButton, &QPushButton::clicked, form, [=]() {
         
         if(onFinish)
             onFinish(form);
