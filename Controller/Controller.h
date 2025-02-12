@@ -6,7 +6,7 @@
 #include <QtCore/QObject>
 
 
-class Controller: public QObject, public Observer, public Subject {
+class Controller: public QObject {
     Q_OBJECT
 public:
     Controller(ModelPtr model, ViewPtr view)
@@ -15,22 +15,7 @@ public:
 
     void init();
 
-protected:
-    
-    virtual void notifyAll() override {
-        
-        for (Observer* observer : mObservers) {
-            if (observer != this) {
-                observer->update(&mQuery);
-            }
-        }
-    }
-
-    
-    virtual void update(void* data) override { (void)data; }
-
 private:
     ModelPtr pModel;
     ViewPtr pView;
-    QString mQuery;
 };

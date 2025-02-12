@@ -28,9 +28,6 @@ int main(int argc, char *argv[])
     view->init();
     controller->init();
 
-    model->registerObserver(controller.get());
-    controller->registerObserver(view.get());
-
     view->show();
     return app.exec();
 }

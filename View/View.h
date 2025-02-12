@@ -12,19 +12,13 @@
 
 class View;
 using ViewPtr = std::shared_ptr<View>;
-using ConstViewPtr = std::shared_ptr<const View>;
 
-class View: public QMainWindow, public Observer {
+class View: public QMainWindow, public Observer<ModelData> {
     Q_OBJECT
 public:
-    View(ModelPtr model)
-        : pModel(model)
-        , listPage(new QWidget(this))
-    { }
-
+	View(ModelPtr model);
     void init();
-    virtual void update(void* data) override;
-    void display(const std::vector<MediaPtr>& medias);
+    virtual void update(const ModelData& data) override;
 
     
     void showEditForm(const MediaPtr& media, bool isNew);
