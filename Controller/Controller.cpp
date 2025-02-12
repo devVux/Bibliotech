@@ -14,9 +14,7 @@ void Controller::init() {
             "Unknown Author",       
             "No Plot"               
             );
-        mQuery.clear(); // azzera il filtro
-        pView->showEditForm(newBook, true);
-        notifyAll();
+		pView->showEditForm(newBook, true);
     });
 
     
@@ -29,9 +27,7 @@ void Controller::init() {
             "No Plot",              //TRAMA
             90                      
             );
-        mQuery.clear();
         pView->showEditForm(newFilm, true);
-        notifyAll();
     });
 
     
@@ -44,43 +40,34 @@ void Controller::init() {
             "Pop",                  // Genere
             10                      
             );
-        mQuery.clear();
         pView->showEditForm(newAlbum, true);
-        notifyAll();
     });
 
     
     QObject::connect(pView.get(), &View::newMediaCreated, this, [this](const MediaPtr& media) {
         pModel->addMedia(media);
-        notifyAll();
     });
 
     
     QObject::connect(pView.get(), &View::loadButtonClicked, this, [this](const QString& filepath) {
         XMLSerializer xml;
         xml.load(filepath, *pModel);
-        mQuery.clear();
-        notifyAll();
     });
     QObject::connect(pView.get(), &View::saveButtonClicked, this, [this](const QString& filepath) {
         XMLSerializer xml;
         xml.save(filepath, *pModel);
     });
 
-    // Quando viene emesso il segnale searchButtonClicked, il Controller aggiorna mQuery e chiama notifyAll()
     QObject::connect(pView.get(), &View::searchButtonClicked, this, [this](const QString& query) {
-        mQuery = query;
-        notifyAll();
+		pModel->search(query);
+
     });
-    // Il tasto reset cancella mQuery e chiama notifyAll()
     QObject::connect(pView.get(), &View::resetButtonClicked, this, [this]() {
-        mQuery.clear();
-        notifyAll();
+		pModel->search("");
     });
 
     
     QObject::connect(pView.get(), &View::removeMedia, this, [this](const MediaPtr& media) {
         pModel->removeMedia(media);
-        notifyAll();
     });
 }

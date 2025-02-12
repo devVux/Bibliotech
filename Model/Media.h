@@ -1,11 +1,15 @@
 #pragma once
 
 #include "Observer.h"
+#include <memory>
 #include <QtCore/QString>
 
 class Visitor;
+class Media;
 
-class Media: public Subject {
+using MediaPtr = std::shared_ptr<Media>;
+
+class Media: public SubjectNoParameters {
 
 	public:
 
@@ -31,14 +35,6 @@ class Media: public Subject {
 				notifyAll();
 				mDirty = false;
 			}
-		}
-
-
-	protected:
-
-		virtual void notifyAll() override {
-			for (Observer* observer : mObservers)
-				observer->update(nullptr);
 		}
 
 

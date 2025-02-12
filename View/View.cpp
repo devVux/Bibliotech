@@ -18,6 +18,10 @@
 #include <QtVisitor.h>
 #include <FormVisitor.h>
 
+View::View(ModelPtr model): pModel(model), listPage(new QWidget(this)) {
+	pModel->registerObserver(this);
+}
+
 void View::init() {
     // Creazione della toolbar
     auto toolbar = new QToolBar(this);
@@ -112,21 +116,11 @@ void View::init() {
         emit searchButtonClicked(text);
     });
     connect(resetButton, &QPushButton::clicked, this, [this]() {
-        
-        searchBar->clear();
         emit resetButtonClicked();
     });
 }
 
-void View::update(void* data) {
-    QString filter;
-    if (data)
-        filter = *static_cast<QString*>(data);
-    
-    display(pModel->search(filter));
-}
-
-void View::display(const std::vector<MediaPtr>& medias) {
+void View::update(const ModelData& data) {
     QLayout* layout = mediaContainer->layout();
     if (!layout) {
         layout = new QVBoxLayout(mediaContainer);
@@ -134,8 +128,10 @@ void View::display(const std::vector<MediaPtr>& medias) {
     }
     clearLayout(layout);
 
+	searchBar->setText(data.query);
+
     QtVisitor visitor(listPage);
-    for (const MediaPtr& media : medias) {
+    for (const MediaPtr& media : data.medias) {
         media->accept(&visitor);
         auto w = visitor.widget();
         if (!w) {
